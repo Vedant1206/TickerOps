@@ -4,3 +4,4 @@
 *.tfvars
 .env
 CHALLENGES.md
+.DS_Store
