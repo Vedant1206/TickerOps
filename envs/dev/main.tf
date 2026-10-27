@@ -8,7 +8,8 @@ module "network" {
 }
 
 module "alb" {
-  source = "../../modules/alb"
-  name   = "tickerops-dev"
-  vpc_id = module.network.vpc_id
+  source            = "../../modules/alb"
+  name              = "tickerops-dev"
+  vpc_id            = module.network.vpc_id
+  public_subnet_ids = module.network.public_subnet_ids
 }
