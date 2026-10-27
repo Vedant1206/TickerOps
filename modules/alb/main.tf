@@ -35,3 +35,18 @@ resource "aws_lb" "app_load_balancer" {
     Name = "${var.name}-alb"
   }
 }
+
+resource "aws_lb_target_group" "alb_target_group" {
+  name        = "${var.name}-alb-tg"
+  port        = 80
+  protocol    = "HTTP"
+  vpc_id      = var.vpc_id
+  target_type = "ip"
+  health_check {
+    path    = "/"
+    matcher = "200-399"
+  }
+  tags = {
+    Name = "${var.name}-alb-tg"
+  }
+}
