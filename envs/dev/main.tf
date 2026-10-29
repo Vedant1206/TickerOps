@@ -13,3 +13,10 @@ module "alb" {
   vpc_id            = module.network.vpc_id
   public_subnet_ids = module.network.public_subnet_ids
 }
+
+module "ecs" {
+  source                = "../../modules/ecs"
+  name                  = "tickerops-dev"
+  vpc_id                = module.network.vpc_id
+  alb_security_group_id = module.alb.alb_security_group_id
+}
