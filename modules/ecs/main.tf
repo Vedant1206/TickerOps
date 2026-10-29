@@ -21,3 +21,11 @@ resource "aws_vpc_security_group_egress_rule" "ecs_all_out" {
   cidr_ipv4         = "0.0.0.0/0"
   ip_protocol       = "-1" # semantically equivalent to all ports
 }
+
+resource "aws_ecs_cluster" "ecs_cluster" {
+  name = "${var.name}-ecs-cluster"
+
+  tags = {
+    Name = "${var.name}-ecs-cluster"
+  }
+}
