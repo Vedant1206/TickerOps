@@ -72,3 +72,38 @@ resource "aws_cloudwatch_log_group" "ecs_log_group" {
     Name = "/ecs/${var.name}"
   }
 }
+
+# Recipe for one container
+resource "aws_ecs_task_definition" "container_task_definition" {
+  family                   = "${var.name}-task"
+  requires_compatibilities = ["FARGATE"]
+  network_mode             = "awsvpc"
+  cpu                      = "256"
+  memory                   = "512"
+
+  container_definitions = jsonencode([
+    {
+      name      = "nginx"
+      image     = "nginx:latest"
+      essential = true
+      portMappings = [
+        {
+          containerPort = 80
+          hostPort      = 80
+        }
+      ]
+      logConfiguration = {
+        logDriver = "awslogs",
+        options = {
+          "awslogs-group"         = aws_cloudwatch_log_group.ecs_log_group.name,
+          "awslogs-region"        = "ca-central-1",
+          "awslogs-stream-prefix" = "nginx"
+        }
+      }
+    }
+  ])
+  execution_role_arn = aws_iam_role.ecs_task_execution_role.arn
+  tags = {
+    Name = "${var.name}-task"
+  }
+}
