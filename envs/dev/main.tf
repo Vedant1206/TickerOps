@@ -19,4 +19,8 @@ module "ecs" {
   name                  = "tickerops-dev"
   vpc_id                = module.network.vpc_id
   alb_security_group_id = module.alb.alb_security_group_id
+  private_subnet_ids    = module.network.private_subnet_ids
+  target_group_arn      = module.alb.alb_target_group_arn
+  depends_on            = [module.alb]
+
 }
