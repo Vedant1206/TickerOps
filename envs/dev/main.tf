@@ -6,3 +6,21 @@ module "network" {
   public_subnet_cidrs  = ["10.0.1.0/24", "10.0.2.0/24"]
   private_subnet_cidrs = ["10.0.11.0/24", "10.0.12.0/24"]
 }
+
+module "alb" {
+  source            = "../../modules/alb"
+  name              = "tickerops-dev"
+  vpc_id            = module.network.vpc_id
+  public_subnet_ids = module.network.public_subnet_ids
+}
+
+module "ecs" {
+  source                = "../../modules/ecs"
+  name                  = "tickerops-dev"
+  vpc_id                = module.network.vpc_id
+  alb_security_group_id = module.alb.alb_security_group_id
+  private_subnet_ids    = module.network.private_subnet_ids
+  target_group_arn      = module.alb.alb_target_group_arn
+  depends_on            = [module.alb]
+
+}
