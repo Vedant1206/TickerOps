@@ -24,3 +24,9 @@ module "ecs" {
   depends_on            = [module.alb]
 
 }
+
+module "monitoring" {
+  source      = "../../modules/monitoring"
+  name        = "tickerops-dev"
+  alert_email = var.alert_email
+}
