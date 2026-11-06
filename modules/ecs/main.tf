@@ -127,6 +127,10 @@ resource "aws_ecs_service" "ecs_service" {
     container_port   = 80
   }
 
+  lifecycle {
+    ignore_changes = [desired_count]
+  }
+
 }
 
 resource "aws_appautoscaling_target" "ecs_scaling_target" {
