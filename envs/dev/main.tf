@@ -26,7 +26,10 @@ module "ecs" {
 }
 
 module "monitoring" {
-  source      = "../../modules/monitoring"
-  name        = "tickerops-dev"
-  alert_email = var.alert_email
+  source                  = "../../modules/monitoring"
+  name                    = "tickerops-dev"
+  alert_email             = var.alert_email
+  alb_arn_suffix          = module.alb.alb_arn_suffix
+  target_group_arn_suffix = module.alb.target_group_arn_suffix
 }
+

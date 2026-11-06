@@ -7,3 +7,13 @@ variable "alert_email" {
   type        = string
   description = "Email address to send CloudWatch alerts to"
 }
+
+variable "alb_arn_suffix" {
+  type        = string
+  description = "ARN suffix of the ALB to monitor for unhealthy hosts"
+}
+
+variable "target_group_arn_suffix" {
+  type        = string
+  description = "ARN suffix of the target group to monitor for unhealthy hosts"
+}
