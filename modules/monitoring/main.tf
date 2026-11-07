@@ -33,3 +33,25 @@ resource "aws_cloudwatch_metric_alarm" "unhealthy_hosts" {
   }
 
 }
+
+resource "aws_cloudwatch_metric_alarm" "alb_5xx_errors" {
+  alarm_name          = "${var.name}-alb-5xx-errors"
+  metric_name         = "HTTPCode_ELB_5XX_Count"
+  namespace           = "AWS/ApplicationELB"
+  statistic           = "Sum" # count all errors in the period, not just the maximum
+  comparison_operator = "GreaterThanThreshold"
+  evaluation_periods  = 2
+  period              = 60
+  threshold           = 5
+  treat_missing_data  = "notBreaching"
+  alarm_actions       = [aws_sns_topic.email_alerts.arn]
+  ok_actions          = [aws_sns_topic.email_alerts.arn]
+
+  dimensions = {
+    LoadBalancer = var.alb_arn_suffix
+  }
+
+  tags = {
+    Name = "${var.name}-alb-5xx-errors"
+  }
+}
