@@ -77,3 +77,49 @@ resource "aws_cloudwatch_metric_alarm" "high_cpu_utilization" {
     Name = "${var.name}-high-cpu"
   }
 }
+
+resource "aws_cloudwatch_dashboard" "main" {
+  dashboard_name = "${var.name}-dashboard"
+
+  dashboard_body = jsonencode({
+    widgets = [
+      {
+        type   = "metric"
+        x      = 0
+        y      = 0
+        width  = 12
+        height = 6
+        properties = {
+          title   = "ECS CPU"
+          region  = "ca-central-1"
+          metrics = [["AWS/ECS", "CPUUtilization", "ClusterName", var.cluster_name, "ServiceName", var.service_name]]
+        }
+      },
+
+      {
+        type   = "metric"
+        x      = 12
+        y      = 0
+        width  = 12
+        height = 6
+        properties = {
+          title   = "Healthy Hosts"
+          region  = "ca-central-1"
+          metrics = [["AWS/ApplicationELB", "HealthyHostCount", "TargetGroup", var.target_group_arn_suffix, "LoadBalancer", var.alb_arn_suffix]]
+        }
+      },
+      {
+        type   = "metric"
+        x      = 0
+        y      = 6
+        width  = 12
+        height = 6
+        properties = {
+          title   = "Healthy Hosts"
+          region  = "ca-central-1"
+          metrics = [["AWS/ApplicationELB", "RequestCount", "LoadBalancer", var.alb_arn_suffix]]
+        }
+      }
+    ]
+  })
+}
