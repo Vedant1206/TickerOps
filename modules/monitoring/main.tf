@@ -55,3 +55,25 @@ resource "aws_cloudwatch_metric_alarm" "alb_5xx_errors" {
     Name = "${var.name}-alb-5xx-errors"
   }
 }
+
+resource "aws_cloudwatch_metric_alarm" "high_cpu_utilization" {
+  alarm_name          = "${var.name}-high-cpu"
+  metric_name         = "CPUUtilization"
+  namespace           = "AWS/ECS"
+  statistic           = "Average"
+  comparison_operator = "GreaterThanThreshold"
+  evaluation_periods  = 3
+  period              = 60
+  threshold           = 80
+  alarm_actions       = [aws_sns_topic.email_alerts.arn]
+  ok_actions          = [aws_sns_topic.email_alerts.arn]
+
+  dimensions = {
+    ClusterName = var.cluster_name
+    ServiceName = var.service_name
+  }
+
+  tags = {
+    Name = "${var.name}-high-cpu"
+  }
+}
