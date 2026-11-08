@@ -118,6 +118,7 @@ resource "aws_cloudwatch_dashboard" "main" {
           title   = "Request"
           region  = "ca-central-1"
           metrics = [["AWS/ApplicationELB", "RequestCount", "LoadBalancer", var.alb_arn_suffix]]
+          stat    = "Sum"
         }
       }
     ]
