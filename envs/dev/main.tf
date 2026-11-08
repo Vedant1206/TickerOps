@@ -24,3 +24,14 @@ module "ecs" {
   depends_on            = [module.alb]
 
 }
+
+module "monitoring" {
+  source                  = "../../modules/monitoring"
+  name                    = "tickerops-dev"
+  alert_email             = var.alert_email
+  alb_arn_suffix          = module.alb.alb_arn_suffix
+  target_group_arn_suffix = module.alb.target_group_arn_suffix
+  cluster_name            = module.ecs.cluster_name
+  service_name            = module.ecs.service_name
+}
+
