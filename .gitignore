@@ -7,3 +7,4 @@ CHALLENGES.md
 .DS_Store
 docs/learning-log.md
 docs/decisions.md
+.venv/
