@@ -9,3 +9,4 @@ docs/learning-log.md
 docs/decisions.md
 .venv/
 docs/cli-cheatsheet.md
+app/__pycache__
