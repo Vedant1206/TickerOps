@@ -80,6 +80,11 @@ resource "aws_ecs_task_definition" "container_task_definition" {
   network_mode             = "awsvpc"
   cpu                      = "256"
   memory                   = "512"
+  
+  runtime_platform {
+    operating_system_family = "LINUX"
+    cpu_architecture        = "ARM64"
+  }
 
   container_definitions = jsonencode([
     {
@@ -100,6 +105,7 @@ resource "aws_ecs_task_definition" "container_task_definition" {
           "awslogs-stream-prefix" = "nginx"
         }
       }
+
     }
   ])
   execution_role_arn = aws_iam_role.ecs_task_execution_role.arn

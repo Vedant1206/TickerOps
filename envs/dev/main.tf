@@ -35,3 +35,8 @@ module "monitoring" {
   service_name            = module.ecs.service_name
 }
 
+module "ecr" {
+  source = "../../modules/ecr"
+  name   = "tickerops-dev"
+}
+

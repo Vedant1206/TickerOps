@@ -21,3 +21,7 @@ output "alb_dns_name" {
 output "alb_target_group_arn" {
   value = module.alb.alb_target_group_arn
 }
+
+output "repo_url" {
+  value = module.ecr.ecr_repository_url
+}
