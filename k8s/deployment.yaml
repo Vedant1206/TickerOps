@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tickerops
+spec:
+  replicas: 2                 # how many Pods (ECS: desired_count)
+  selector:
+    matchLabels:
+      app: tickerops          # "the Pods I manage have this label"
+  template:                   # the Pod recipe (ECS: task definition)
+    metadata:
+      labels:
+        app: tickerops        # every Pod gets this label
+    spec:
+      containers:
+        - name: app
+          image: tickerops-app:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8000
