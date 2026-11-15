@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: app
-          image: tickerops-app:latest
+          image: tickerops-app:v2
           imagePullPolicy: Never
           ports:
             - containerPort: 8000

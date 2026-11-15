@@ -9,7 +9,7 @@ app = FastAPI()
 def read_root():
     """Returns a welcome message along with the host name and environment."""
     return {
-        "message": "Welcome to the FastAPI application!",
+        "message": "Welcome to the FastAPI application v2!",
         "hostname": socket.gethostname(),
         "environment": os.getenv("APP_ENV", "local"),
     }
