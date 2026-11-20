@@ -10,3 +10,4 @@ docs/decisions.md
 .venv/
 docs/cli-cheatsheet.md
 app/__pycache__
+docs/revision-notes-docker-k8s.md
