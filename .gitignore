@@ -5,3 +5,9 @@
 .env
 CHALLENGES.md
 .DS_Store
+docs/learning-log.md
+docs/decisions.md
+.venv/
+docs/cli-cheatsheet.md
+app/__pycache__
+docs/revision-notes-docker-k8s.md

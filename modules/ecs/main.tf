@@ -11,9 +11,9 @@ resource "aws_security_group" "ecs_security_group" {
 resource "aws_vpc_security_group_ingress_rule" "ecs_http_in" {
   security_group_id            = aws_security_group.ecs_security_group.id
   referenced_security_group_id = var.alb_security_group_id
-  from_port                    = 80
+  from_port                    = 8000
   ip_protocol                  = "tcp"
-  to_port                      = 80
+  to_port                      = 8000
 }
 
 resource "aws_vpc_security_group_egress_rule" "ecs_all_out" {
@@ -81,15 +81,20 @@ resource "aws_ecs_task_definition" "container_task_definition" {
   cpu                      = "256"
   memory                   = "512"
 
+  runtime_platform {
+    operating_system_family = "LINUX"
+    cpu_architecture        = "ARM64"
+  }
+
   container_definitions = jsonencode([
     {
-      name      = "nginx"
-      image     = "nginx:latest"
+      name      = "app"
+      image     = var.container_image
       essential = true
       portMappings = [
         {
-          containerPort = 80
-          hostPort      = 80
+          containerPort = 8000
+          hostPort      = 8000
         }
       ]
       logConfiguration = {
@@ -97,9 +102,10 @@ resource "aws_ecs_task_definition" "container_task_definition" {
         options = {
           "awslogs-group"         = aws_cloudwatch_log_group.ecs_log_group.name,
           "awslogs-region"        = "ca-central-1",
-          "awslogs-stream-prefix" = "nginx"
+          "awslogs-stream-prefix" = "app"
         }
       }
+
     }
   ])
   execution_role_arn = aws_iam_role.ecs_task_execution_role.arn
@@ -123,8 +129,8 @@ resource "aws_ecs_service" "ecs_service" {
 
   load_balancer {
     target_group_arn = var.target_group_arn
-    container_name   = "nginx"
-    container_port   = 80
+    container_name   = "app"
+    container_port   = 8000
   }
 
   lifecycle {
