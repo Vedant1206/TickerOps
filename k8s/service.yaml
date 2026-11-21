@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: tickerops
+spec:
+  type: NodePort          # reachable from outside the cluster (more on types later)
+  selector:
+    app: tickerops        # send traffic to Pods with this label
+  ports:
+    - port: 80            # the Service's port (ECS: ALB listener 80)
+      targetPort: 8000    # the Pod's port (ECS: containerPort)

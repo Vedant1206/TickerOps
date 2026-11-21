@@ -22,3 +22,8 @@ variable "target_group_arn" {
   type        = string
   description = "ARN of the target group for the ECS service"
 }
+
+variable "container_image" {
+  type        = string
+  description = "Image address with tag, e.g. ECR URL:git SHA"
+}
