@@ -22,7 +22,7 @@ module "ecs" {
   private_subnet_ids    = module.network.private_subnet_ids
   target_group_arn      = module.alb.alb_target_group_arn
   depends_on            = [module.alb]
-
+  container_image       = "${module.ecr.ecr_repository_url}:1d19001"
 }
 
 module "monitoring" {
