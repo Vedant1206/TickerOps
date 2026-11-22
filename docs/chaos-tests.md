@@ -29,6 +29,17 @@ ECS service events:
 
 The dashboard didn't show the dip at first: the widgets average over 5 minutes and CloudWatch data arrives 1–3 minutes late. It later showed Healthy Hosts dropping to 1.8 (5-minute average).
 
+**Re-run on my own app image (2026-11-21, task 4):**
+
+```
+21:09:51  deregistered 1 targets, began draining connections on 1 task
+21:09:52  has started 1 tasks
+21:10:11  registered 1 targets in the target group
+21:10:20  has reached a steady state
+```
+
+Same timings as nginx: 1 s, 20 s, 29 s. The new task was serving after about 20 s. The old task stayed in the list as stopping for minutes longer, because the target group waits up to 300 s by default (deregistration delay) so open requests can finish. That made the test feel slower than it was.
+
 ### 2. Load test
 
 | Metric | Value |
