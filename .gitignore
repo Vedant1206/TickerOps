@@ -11,3 +11,4 @@ docs/decisions.md
 docs/cli-cheatsheet.md
 app/__pycache__
 docs/revision-notes-docker-k8s.md
+app/data/
