@@ -17,6 +17,8 @@ COPY --from=builder /opt/venv /opt/venv
 ENV PATH="/opt/venv/bin:$PATH"
 
 RUN useradd -m appuser
+# Create a directory for the application data and set ownership to the appuser
+RUN mkdir /data && chown appuser /data
 USER appuser
 
 COPY . .
