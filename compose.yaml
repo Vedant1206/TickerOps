@@ -1,0 +1,18 @@
+services:
+  app:
+    build: ./app
+    volumes: 
+      - ./app:/app
+      - ./app/data:/data
+    command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+    ports:
+      - "127.0.0.1:8000:8000"
+    environment:
+      - APP_ENV=dev
+  checker:
+    build: ./app
+    command: ["python", "-c", "import urllib.request; print(urllib.request.urlopen('http://app:8000/health').read())"]
+    depends_on:
+      app:
+        condition: service_healthy
+
