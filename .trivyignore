@@ -1,0 +1,15 @@
+# ALB is public: that's its job: users reach the app through it
+AWS-0053
+
+# HTTP, not HTTPS: HTTPS needs a domain + certificate, and there's no domain. Note it for later
+AWS-0054
+
+# ECS tasks can reach any IP: tasks must reach ECR and CloudWatch through the NAT. Locking that down needs VPC endpoints, which cost money 
+# ALB can reach any IP: could be limited to the VPC. Low risk, so later
+AWS-0104
+
+# SNS topic not encrypted: CloudWatch alarms can't publish to an SNS topic that uses the free AWS key. It needs a paid KMS key (about $1/month)
+AWS-0095
+
+# state bucket uses AWS's key, not your own: it is encrypted (AES256). Your own KMS key costs about $1/month
+AWS-0132
