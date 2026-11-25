@@ -1,4 +1,4 @@
-FROM python:3.13.12-slim AS builder
+FROM python:3.13.18-slim AS builder
 
 RUN python -m venv /opt/venv
 
@@ -9,12 +9,14 @@ COPY requirements.txt .
 RUN pip install -r requirements.txt
 
 
-FROM python:3.13.12-slim
+FROM python:3.13.18-slim
 
 WORKDIR /app
 
 COPY --from=builder /opt/venv /opt/venv
 ENV PATH="/opt/venv/bin:$PATH"
+
+RUN pip uninstall -y pip && /usr/local/bin/pip uninstall -y pip
 
 RUN useradd -m appuser
 # Create a directory for the application data and set ownership to the appuser

@@ -23,11 +23,12 @@ resource "aws_vpc_security_group_egress_rule" "alb_all_out" {
 }
 
 resource "aws_lb" "app_load_balancer" {
-  name               = "${var.name}-alb"
-  internal           = false
-  load_balancer_type = "application"
-  security_groups    = [aws_security_group.security_group.id]
-  subnets            = var.public_subnet_ids
+  name                       = "${var.name}-alb"
+  internal                   = false
+  load_balancer_type         = "application"
+  security_groups            = [aws_security_group.security_group.id]
+  subnets                    = var.public_subnet_ids
+  drop_invalid_header_fields = true
 
   enable_deletion_protection = false
 
