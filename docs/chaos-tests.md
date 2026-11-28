@@ -40,6 +40,16 @@ The dashboard didn't show the dip at first: the widgets average over 5 minutes a
 
 Same timings as nginx: 1 s, 20 s, 29 s. The new task was serving after about 20 s. The old task stayed in the list as stopping for minutes longer, because the target group waits up to 300 s by default (deregistration delay) so open requests can finish. That made the test feel slower than it was.
 
+**Automated with `tools/chaos.py` (2026-11-27, task 10, image `654e983`):**
+
+| Run | Script (stop → 2/2 running + 2 healthy) | Dip seen | ECS events: new task / registered / steady |
+|---|---|---|---|
+| 1 | 37 s | 11 s | 1 s / 19 s / 28 s |
+| 2 | 60 s | 24 s | 1 s / 30 s / 39 s |
+
+- ECS's own timeline for run 1 matches the manual test exactly. Run 2 was about 10 s slower to get the new task healthy: Fargate start-up time varies.
+- The script's number is bigger because its timer starts at the stop call, before AWS reacts (the target only dropped out 11–24 s later), and it checks every 5 s. It measures "from my stop to fully healthy", which is the user-facing number.
+
 ### 2. Load test
 
 | Metric | Value |
